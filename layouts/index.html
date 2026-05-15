@@ -1,0 +1,155 @@
+{{ define "main" }}
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <img src="/images/kv.png" class="hero-image">
+
+    <div class="hero-overlay">
+
+        <h1>我现在就想知道…</h1>
+
+        <p>
+难道。所有不可思议的好事都是假的吗？
+        </p>
+
+    </div>
+
+</section>
+
+<div class="hero-nav">
+
+    <a href="/gallery/">画廊</a>
+
+    <a href="/doc/">档案室</a>
+
+    <a href="/download/">游戏下载</a>
+
+    <a href="/devlog/">更新日志</a>
+
+</div>
+
+<section class="intro">
+
+<div class="content">
+
+<h2>真心话大冒险</h2>
+
+<p><em>“他的脸又干又烫。 他的嘴唇湿湿的。 大概是因为我。”</em></p>
+
+<hr>
+
+<h2>关于游戏</h2>
+
+<p>
+《真心话大冒险》是一款视觉小说类同人游戏，你将通过选择不同的对话与行动，
+触发大泽房太郎与白石由竹之间不同的剧情走向与结局。
+</p>
+
+<hr>
+
+<hr>
+
+<h2>世界观</h2>
+
+<p>日式校园背景。</p>
+
+<p>一场普通的游戏。</p>
+
+<p>两个中学生的青春故事。</p>
+
+<hr>
+
+
+<h2>角色</h2>
+
+<h3>大泽房太郎</h3>
+
+<p><em>初二13岁</em></p>
+
+<p>
+“今天是我和白石交往的第一天，初中二年级。初恋。心情愉悦。”
+</p>
+
+<div class="character-card">
+
+    <img
+        id="fang-image"
+        class="character-art"
+        src="/images/74.PNG"
+    >
+
+    <div class="character-switch">
+
+        <button onclick="switchCharacter('fang-image', '/images/74.PNG')">
+            初中
+        </button>
+
+        <button onclick="switchCharacter('fang-image', '/images/77.PNG')">
+            高中
+        </button>
+
+    </div>
+
+</div>
+
+<h3>白石由竹</h3>
+
+<p><em>初二14岁</em></p>
+
+<p>
+“我们还是初中生哎，房太郎……”
+</p>
+
+<div class="character-card">
+
+    <img
+        id="bai-image"
+        class="character-art"
+        src="/images/75.PNG"
+    >
+
+    <div class="character-switch">
+
+        <button onclick="switchCharacter('bai-image', '/images/75.PNG')">
+            初中
+        </button>
+
+        <button onclick="switchCharacter('bai-image', '/images/76.PNG')">
+            高中
+        </button>
+
+        <button onclick="switchCharacter('bai-image', '/images/78.PNG')">
+            高中-2
+        </button>
+
+    </div>
+
+</div>
+
+<h2>开发状态</h2>
+
+<p>2026/5/12：更新了两位主角的立绘（初中&高中）</p>
+
+<p>2026/5/12：安置了页面音乐播放器</p>
+
+<p>2026/5/12：真心话大冒险 v0.04 made by twine</p>
+
+</div>
+
+</section>
+
+<div class="music-player">
+    <button id="music-toggle">♪</button>
+
+    <audio id="bg-music" loop>
+        <source src="/music/bgm.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<script src="/js/music.js"></script>
+<script src="/js/character.js"></script>
+
+{{ end }}
+

@@ -1,0 +1,325 @@
+:root {
+    --bg: #f4f1eb;
+    --text: #1d1d1d;
+    --subtext: rgba(0,0,0,0.72);
+    --panel: rgba(255,255,255,0.55);
+    --border: rgba(0,0,0,0.08);
+}
+
+html.dark {
+    --bg: #090909;
+    --text: #f5f5f5;
+    --subtext: rgba(255,255,255,0.82);
+    --panel: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", sans-serif;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+    position: relative;
+    height: 88vh;
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.2);
+    filter: brightness(1.1) contrast(1.05) saturate(1.05)
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+
+);
+    transform: translateY(4.5vh);
+}
+
+.hero-overlay h1,
+.hero-overlay p {
+    text-shadow: 0 2px 12px rgba(0,0,0,0.28);
+}
+
+html.dark .hero-overlay {
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.2),
+        rgba(0,0,0,0.75)
+    );
+}
+
+html.dark .hero-image {
+    opacity: 0.75;
+}
+
+.hero-overlay h1 {
+    font-size: 5rem;
+    font-weight: 800;
+    margin-bottom: 2.5rem;
+}
+
+.hero-overlay p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    max-width: 700px;
+    opacity: 0.88;
+}
+
+.hero-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+    width: 100%;
+
+    overflow: hidden;
+}
+
+.hero-nav a {
+    display: flex;
+    align-items: center;
+
+    min-height: 88px;
+
+    padding: 0 2rem;
+
+    color: var(--text);
+    text-decoration: none;
+
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+
+    border-right: 1px solid var(--border);
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.hero-nav a:last-child {
+    border-right: none;
+}
+
+.hero-nav a:hover {
+    background: var(--text);
+    color: var(--bg);
+}
+
+html.dark .hero-nav {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+html.dark .hero-nav a {
+    border-color: rgba(255,255,255,0.18);
+}
+
+html.dark .hero-nav a:hover {
+    background: #f5f5f5;
+    color: #090909;
+}
+
+/* ================= INTRO ================= */
+
+.intro {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+}
+
+.intro h2 {
+    margin-top: 5rem;
+    font-size: 2rem;
+}
+
+.intro h3 {
+    margin-top: 3rem;
+    font-size: 1.4rem;
+}
+
+.intro p {
+    line-height: 2;
+    opacity: 0.9;
+}
+
+.intro img:not(.character-art) {
+    width: 100%;
+    border-radius: 20px;
+    margin: 2rem 0 4rem;
+}
+
+.gallery {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.gallery-item {
+    width: 100%;
+    height: 160px;
+    object-fit: contain;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    border-radius: 14px;
+
+    padding: 6px;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+    filter: brightness(1.05);
+}
+
+/* ================= MUSIC ================= */
+
+.music-player {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 999;
+}
+
+#music-toggle {
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 999px;
+
+    background: rgba(244, 241, 235, 0.72);
+    color: #1d1d1d;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow: 0 1px 10px rgba(0,0,0,0.08);
+
+    cursor: pointer;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        opacity 0.25s ease;
+}
+
+#music-toggle:hover {
+    transform: scale(1.06);
+    background: rgba(244, 241, 235, 0.9);
+}
+
+/* 夜间模式 */
+
+html.dark #music-toggle {
+    background: rgba(0,0,0,0.32);
+    color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.24);
+}
+
+html.dark #music-toggle:hover {
+    background: rgba(0,0,0,0.48);
+}
+
+.character-card {
+    margin: 3rem 0 4rem;
+    text-align: left;
+}
+
+.character-art {
+    width: 210px;
+    max-width: 100%;
+
+    height: auto;
+
+    display: block;
+
+    margin: 0;
+
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+}
+
+.character-switch {
+    display: flex;
+    gap: 0.8rem;
+
+    justify-content: flex-start;
+
+    margin-top: 1.5rem;
+
+    flex-wrap: wrap;
+}
+
+.character-switch button {
+    padding: 0.5rem 1rem;
+
+    border: 1px solid var(--border);
+
+    background: transparent;
+    color: var(--text);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.character-switch button:hover {
+    background: var(--text);
+    color: var(--bg);
+}
+
+@media (max-width: 768px) {
+
+    .hero {
+        height: 78vh;
+    }
+
+    .hero-overlay h1 {
+        font-size: 3rem;
+    }
+
+    .hero-overlay p {
+        font-size: 1.1rem;
+    }
+
+    .hero-nav {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-nav a {
+        min-height: 64px;
+        font-size: 0.95rem;
+    }
+
+    .intro {
+        padding: 2.5rem 1.4rem 5rem;
+    }
+
+}

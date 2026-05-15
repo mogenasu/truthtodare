@@ -1,0 +1,20 @@
+baseURL = 'https://example.org/'
+defaultContentLanguage = 'zh-cn'
+title = '真心话大冒险'
+theme = 'blowfish'
+
+summaryLength = 30
+
+[params]
+defaultTheme = "system"
+autoSwitchAppearance = true
+enableAppearanceSwitcher = true
+enableSearch = false
+
+[params.customCSS]
+css = ["css/custom.css"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
