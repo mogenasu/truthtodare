@@ -21,11 +21,41 @@ body {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* 声明霞鹜文楷字体 */
+@font-face {
+    font-family: 'LXGW WenKai';
+    src: url('/fonts/LXGWWenKai-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'bzst';
+    src: url('/fonts/biaozhunshuti.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* 方法1：强制所有元素都使用（最彻底） */
+* {
+    font-family: 'LXGW WenKai', 'bzst', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+}
+
+h1 {
+    font-family: 'bzst', sans-serif !important;
+}
+
 /* ================= HERO ================= */
+
 
 .hero {
     position: relative;
+    width: 100vw;
     height: 88vh;
+    margin-left: calc(50% - 50vw);
     overflow: hidden;
 }
 
@@ -33,7 +63,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: scale(1.2);
+    display: block;
     filter: brightness(1.1) contrast(1.05) saturate(1.05)
 }
 
@@ -47,10 +77,19 @@ body {
     align-items: center;
     text-align: center;
     padding: 2rem;
-
-);
     transform: translateY(4.5vh);
 }
+
+.hero-overlay h1 {
+    font-family: 'LXGW WenKai', sans-serif;
+    font-weight: 900;
+    font-size: 5rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.2;
+    color: white;
+    text-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
 
 .hero-overlay h1,
 .hero-overlay p {
@@ -69,10 +108,23 @@ html.dark .hero-image {
     opacity: 0.75;
 }
 
+.mobile-break {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .mobile-break {
+        display: inline;
+    }
+}
+
+
+/* 基础样式（桌面端） */
 .hero-overlay h1 {
     font-size: 5rem;
     font-weight: 800;
     margin-bottom: 2.5rem;
+    line-height: 1.2; /* 添加行高 */
 }
 
 .hero-overlay p {
@@ -80,37 +132,110 @@ html.dark .hero-image {
     line-height: 1.6;
     max-width: 700px;
     opacity: 0.88;
+    margin: 0 auto; /* 居中对齐 */
 }
+
+/* ================= 响应式设计 ================= */
+
+/* 平板设备（768px - 1024px） */
+@media (max-width: 1024px) {
+    .hero {
+        height: 75vh;
+    }
+    
+    .hero-overlay h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.8rem;
+    }
+    
+    .hero-overlay p {
+        font-size: 1.25rem;
+        max-width: 85%;
+        line-height: 1.5;
+    }
+    
+    .hero-nav a {
+        min-height: 72px;
+        padding: 0 1.5rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* 手机横屏 & 小平板（481px - 767px） */
+@media (max-width: 767px) {
+    .hero {
+        height: 70vh;
+    }
+    
+    .hero-overlay {
+        padding: 1.5rem;
+        transform: translateY(2vh); /* 移动端减少偏移 */
+    }
+    
+    .hero-overlay h1 {
+        font-size: 2.2rem;
+        margin-bottom: 1.2rem;
+        line-height: 1.3;
+    }
+    
+    .hero-overlay p {
+        font-size: 1rem;
+        max-width: 90%;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+}
+
+/* 手机竖屏（480px 及以下） */
+@media (max-width: 480px) {
+    .hero {
+        height: 65vh;
+    }
+    
+    .hero-overlay {
+        padding: 1rem;
+        transform: translateY(1vh);
+    }
+    
+    .hero-overlay h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        line-height: 1.35;
+    }
+    
+    .hero-overlay p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        max-width: 95%;
+        /* 防止文字叠在一起 */
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* ================= 导航栏响应式 ================= */
 
 .hero-nav {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-
     width: 100%;
-
     overflow: hidden;
 }
 
 .hero-nav a {
     display: flex;
     align-items: center;
-
+    justify-content: center; /* 添加居中 */
     min-height: 88px;
-
     padding: 0 2rem;
-
     color: var(--text);
     text-decoration: none;
-
     font-size: 1.05rem;
     font-weight: 600;
     letter-spacing: 0.02em;
-
     border-right: 1px solid var(--border);
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease;
+    transition: all 0.2s ease;
+    text-align: center; /* 文字居中 */
 }
 
 .hero-nav a:last-child {
@@ -122,6 +247,33 @@ html.dark .hero-image {
     color: var(--bg);
 }
 
+@media (orientation: portrait) {
+    .hero-image {
+        object-position: 75% 25%;  /* 用你测试出的数值 */
+    }
+}
+
+/* 手机端导航栏优化 */
+@media (max-width: 768px) {
+    .hero-nav {
+        grid-template-columns: 1fr; /* 手机端改为竖排 */
+    }
+    
+    .hero-nav a {
+        min-height: 56px;
+        padding: 0.75rem 1rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        justify-content: center;
+        font-size: 0.95rem;
+    }
+    
+    .hero-nav a:last-child {
+        border-bottom: none;
+    }
+}
+
+/* 暗色模式 */
 html.dark .hero-nav {
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
