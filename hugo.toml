@@ -10,6 +10,7 @@ defaultTheme = "system"
 autoSwitchAppearance = true
 enableAppearanceSwitcher = true
 enableSearch = false
+copyright = "© { year } The Fable"
 
 [params.customCSS]
 css = ["css/custom.css"]
@@ -18,3 +19,4 @@ css = ["css/custom.css"]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+      
