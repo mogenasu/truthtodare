@@ -10,7 +10,7 @@ defaultTheme = "system"
 autoSwitchAppearance = true
 enableAppearanceSwitcher = true
 enableSearch = false
-copyright = "© { year } The Fable"
+copyright = "© { year } The Fable Studio"
 
 [params.customCSS]
 css = ["css/custom.css"]

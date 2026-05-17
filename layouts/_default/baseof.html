@@ -1,0 +1,180 @@
+<!doctype html>
+<html
+  lang="{{ with site.Params.isoCode | default (site.Language.Locale | default `en`) }}{{- . -}}{{ end }}"
+  dir="{{ cond (site.Params.rtl | default false) `rtl` `ltr` }}"
+  class="scroll-smooth"
+  data-default-appearance="{{ site.Params.defaultAppearance | default `light` }}"
+  data-auto-appearance="{{ site.Params.autoSwitchAppearance | default `true` }}">
+  {{- partial "head.html" . -}}
+  {{- partialCached "init.html" . -}}
+
+  {{ $bodyLayout := "flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32" }}
+  {{ $bodyColor := "text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral" }}
+  <body class="{{ $bodyLayout }} {{ $bodyColor }} {{ if site.Params.enableStyledScrollbar | default true }}bf-scrollbar{{ end }}">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        {{ i18n "nav.skip_to_main" }}
+      </a>
+    </div>
+    {{ $header := print "header/" site.Params.header.layout ".html" }}
+    {{ if templates.Exists ( printf "partials/%s" $header ) }}
+      {{ partial $header . }}
+    {{ else }}
+      {{ partial "header/basic.html" . }}
+    {{ end }}
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        {{ block "main" . }}{{ end }}
+        {{ if and (site.Params.footer.showScrollToTop | default true) }}
+          {{- partial "scroll-to-top.html" . -}}
+        {{ end }}
+      </main>
+      {{- partial "footer.html" . -}}
+
+      <!-- MUSIC PLAYER -->
+<div class="music-player">
+  <button id="music-toggle">♪</button>
+  <audio id="bg-music" loop>
+    <source src="/music/bgm.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<script src="/js/music.js"></script>
+
+<!-- SPA 导航脚本：实现无刷新切换页面，保持音乐播放 -->
+<script>
+(function() {
+  // 劫持所有内部链接，实现无刷新导航
+  function setupSPANavigation() {
+    // 监听所有点击事件
+    document.body.addEventListener('click', function(e) {
+      // 找到被点击的链接
+      let link = e.target.closest('a');
+      if (!link) return;
+      
+      let href = link.getAttribute('href');
+      
+      // 过滤无效链接
+      if (!href || href === '#' || href.startsWith('javascript:') || 
+          href.startsWith('mailto:') || href.startsWith('tel:')) {
+        return;
+      }
+      
+      // 过滤外部链接
+      if (href.startsWith('http') && !href.includes(window.location.hostname)) {
+        return;
+      }
+      
+      // 过滤新窗口打开的链接
+      if (link.getAttribute('target') === '_blank') {
+        return;
+      }
+      
+      // 阻止默认跳转行为
+      e.preventDefault();
+      
+      // 获取当前播放状态（从 audio 元素读取最新值）
+      const audio = document.getElementById('bg-music');
+      const currentTime = audio ? audio.currentTime : 0;
+      const isPlaying = audio ? !audio.paused : false;
+      
+      // 保存播放状态到 sessionStorage
+      sessionStorage.setItem('music-time', currentTime);
+      sessionStorage.setItem('music-playing', isPlaying);
+      sessionStorage.setItem('pending-url', href);
+      
+      // 显示加载提示（可选）
+      const mainContent = document.querySelector('main');
+      if (mainContent) {
+        mainContent.style.opacity = '0.5';
+      }
+      
+      // 使用 fetch 获取新页面
+      fetch(href)
+        .then(response => response.text())
+        .then(html => {
+          // 解析 HTML
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          // 更新 main 区域的内容
+          const newMain = doc.querySelector('main');
+          const currentMain = document.querySelector('main');
+          
+          if (newMain && currentMain) {
+            currentMain.innerHTML = newMain.innerHTML;
+          }
+          
+          // 更新页面标题
+          document.title = doc.title;
+          
+          // 更新 URL（不刷新页面）
+          window.history.pushState({}, '', href);
+          
+          // 恢复页面可见性
+          if (mainContent) {
+            mainContent.style.opacity = '1';
+          }
+          
+          // 重新执行页面内的脚本（如搜索、代码高亮等）
+          const scripts = doc.querySelectorAll('script');
+          scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            if (oldScript.src) {
+              newScript.src = oldScript.src;
+            } else {
+              newScript.textContent = oldScript.textContent;
+            }
+            document.body.appendChild(newScript);
+          });
+          
+          // 滚动到顶部
+          window.scrollTo(0, 0);
+          
+          // 清除导航标记
+          sessionStorage.removeItem('pending-url');
+        })
+        .catch(error => {
+          console.error('导航失败:', error);
+          // 出错时回退到正常跳转
+          window.location.href = href;
+        });
+    });
+    
+    // 处理浏览器前进后退按钮
+    window.addEventListener('popstate', function() {
+      window.location.reload();
+    });
+  }
+  
+  // 页面加载完成后启动
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupSPANavigation);
+  } else {
+    setupSPANavigation();
+  }
+})();
+</script>
+
+      {{ if site.Params.enableSearch | default false }}
+        {{- partial "search.html" . -}}
+      {{ end }}
+    </div>
+  </body>
+  {{ if site.Params.buymeacoffee.globalWidget | default false }}
+    <script
+      data-name="BMC-Widget"
+      data-cfasync="false"
+      src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+      data-id="{{ site.Params.buymeacoffee.identifier }}"
+      data-description="Support me on Buy me a coffee!"
+      {{ with site.Params.buymeacoffee.globalWidgetMessage }}data-message="{{ . }}"{{ end }}
+      {{ with site.Params.buymeacoffee.globalWidgetColor | default `#FFDD00` }}data-color="{{ . }}"{{ end }}
+      {{ with site.Params.buymeacoffee.globalWidgetPosition }}data-position="{{ . }}"{{ end }}
+      data-x_margin="18"
+      data-y_margin="18"></script>
+  {{ end }}
+</html>

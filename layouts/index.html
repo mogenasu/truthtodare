@@ -22,11 +22,11 @@
 
     <a href="/gallery/">画廊</a>
 
-    <a href="/doc/">档案室</a>
+    <a href="/doc/">资料室</a>
 
-    <a href="/download/">游戏下载</a>
+    <a href="/download/">立即下载</a>
 
-    <a href="/devlog/">更新日志</a>
+    <a href="/devlog/">开发日志</a>
 
 </div>
 
@@ -82,12 +82,17 @@
 
     <div class="character-switch">
 
-        <button onclick="switchCharacter('fang-image', '/images/74.PNG')">
+        <button onclick="switchCharacter('fang-image', '/images/74.png')">
             初中
         </button>
-
+        <button onclick="switchCharacter('fang-image', '/images/72.png')">
+            初中-常
+        </button>
         <button onclick="switchCharacter('fang-image', '/images/77.PNG')">
             高中
+        </button>
+        <button onclick="switchCharacter('fang-image', '/images/71.png')">
+            高中-冬
         </button>
 
     </div>
@@ -112,47 +117,40 @@
 
     <div class="character-switch">
 
-        <button onclick="switchCharacter('bai-image', '/images/75.PNG')">
+        <button onclick="switchCharacter('bai-image', '/images/75.png')">
             初中
         </button>
 
-        <button onclick="switchCharacter('bai-image', '/images/76.PNG')">
-            高中
+        <button onclick="switchCharacter('bai-image', '/images/79.png')">
+            初中-常
         </button>
-
+        <button onclick="switchCharacter('bai-image', '/images/76.PNG')">
+            高中-1
+        </button>
         <button onclick="switchCharacter('bai-image', '/images/78.PNG')">
             高中-2
+        </button>
+        <button onclick="switchCharacter('bai-image', '/images/80.png')">
+            高中-秋
+        </button>
+        <button onclick="switchCharacter('bai-image', '/images/73.png')">
+            高中-冬
         </button>
 
     </div>
 
 </div>
 
-<h2>开发状态</h2>
+<h2>开发日志</h2>
 
-<p>2026/5/16：更换字体以及优化移动端适配</p>
-
-<p>2026/5/15：主页已公开发布🎉！</p>
-
-<p>2026/5/12：更新了两位主角的立绘（初中&高中）</p>
-
-<p>2026/5/12：安置了页面音乐播放器</p>
-
-<p>2026/5/12：真心话大冒险 v0.04 made by twine</p>
-
-</div>
+    {{ with site.GetPage "section" "devlog" }}
+        <div class="devlog-intro">
+            {{ .Content }}
+        </div>
+    {{ end }}
 
 </section>
 
-<div class="music-player">
-    <button id="music-toggle">♪</button>
-
-    <audio id="bg-music" loop>
-        <source src="/music/bgm.mp3" type="audio/mpeg">
-    </audio>
-</div>
-
-<script src="/js/music.js"></script>
 <script src="/js/character.js"></script>
 
 {{ end }}
