@@ -434,7 +434,7 @@ html.dark #music-toggle:hover {
     background: transparent;
 
     color: var(--text);
-
+    white-space: nowrap;
     font-size: 0.88rem;
     font-weight: 600;
     letter-spacing: 0.03em;
