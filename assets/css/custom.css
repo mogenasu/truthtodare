@@ -33,7 +33,7 @@ body {
 
 /* 方法1：强制所有元素都使用（最彻底） */
 * {
-    font-family: "LXGW WenKai GB Screen", "霞鹜文楷 GB Screen", 'bzst', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+    font-family: "LXGW WenKai GB Screen", "霞鹜文楷 GB Screen", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
 }
 
 h1 {
