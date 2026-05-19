@@ -47,6 +47,24 @@
 <!-- SPA 导航脚本：实现无刷新切换页面，保持音乐播放 -->
 <script>
 (function() {
+  // 保存滚动位置的 key
+  const SCROLL_KEY = 'last-scroll-position';
+  
+  // 恢复滚动位置
+  function restoreScrollPosition() {
+    const savedScroll = sessionStorage.getItem(SCROLL_KEY);
+    if (savedScroll !== null) {
+      // 延迟恢复，确保内容已渲染完成
+      setTimeout(() => {
+        window.scrollTo({
+          top: parseInt(savedScroll),
+          behavior: 'instant'
+        });
+        sessionStorage.removeItem(SCROLL_KEY);
+      }, 50);
+    }
+  }
+  
   // 劫持所有内部链接，实现无刷新导航
   function setupSPANavigation() {
     // 监听所有点击事件
@@ -76,6 +94,9 @@
       // 阻止默认跳转行为
       e.preventDefault();
       
+      // 保存当前滚动位置
+      sessionStorage.setItem(SCROLL_KEY, window.scrollY);
+      
       // 获取当前播放状态（从 audio 元素读取最新值）
       const audio = document.getElementById('bg-music');
       const currentTime = audio ? audio.currentTime : 0;
@@ -86,10 +107,13 @@
       sessionStorage.setItem('music-playing', isPlaying);
       sessionStorage.setItem('pending-url', href);
       
-      // 显示加载提示（可选）
+      // 可选：显示加载提示（让用户知道正在加载）
       const mainContent = document.querySelector('main');
+      let loadingIndicator = null;
       if (mainContent) {
-        mainContent.style.opacity = '0.5';
+        // 添加一个淡出效果而不是透明度变化，避免闪烁
+        mainContent.style.transition = 'opacity 0.15s ease';
+        mainContent.style.opacity = '0.6';
       }
       
       // 使用 fetch 获取新页面
@@ -117,11 +141,20 @@
           // 恢复页面可见性
           if (mainContent) {
             mainContent.style.opacity = '1';
+            // 清除过渡效果
+            setTimeout(() => {
+              if (mainContent) mainContent.style.transition = '';
+            }, 200);
           }
           
-          // 重新执行页面内的脚本（如搜索、代码高亮等）
+          // 重新执行页面内的脚本（只执行必要的脚本，避免重复）
           const scripts = doc.querySelectorAll('script');
           scripts.forEach(oldScript => {
+            // 避免重复加载 music.js 和已经存在的脚本
+            if (oldScript.src && (oldScript.src.includes('music.js') || 
+                oldScript.src.includes('search'))) {
+              return;
+            }
             const newScript = document.createElement('script');
             if (oldScript.src) {
               newScript.src = oldScript.src;
@@ -131,8 +164,8 @@
             document.body.appendChild(newScript);
           });
           
-          // 滚动到顶部
-          window.scrollTo(0, 0);
+          // 恢复滚动位置（关键：不滚动到顶部）
+          restoreScrollPosition();
           
           // 清除导航标记
           sessionStorage.removeItem('pending-url');
