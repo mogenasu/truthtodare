@@ -1,16 +1,18 @@
+
 baseURL = 'https://example.org/'
 defaultContentLanguage = 'zh-cn'
 title = '真心话大冒险'
 theme = 'blowfish'
 
 summaryLength = 30
+hasCJKLanguage = true
 
 [params]
 defaultTheme = "system"
 autoSwitchAppearance = true
 enableAppearanceSwitcher = true
-enableSearch = false
 copyright = "© { year } The Fable Studio"
+enableSearch = false
 
 [params.customCSS]
 css = ["css/custom.css"]
